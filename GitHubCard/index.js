@@ -3,13 +3,14 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-const githubData = axios.get('https://api.github.com/users/andromedis')
+
+axios.get('https://api.github.com/users/andromedis')
   .then(res => {
-    return res.data;
+    console.log(res.data);
   })
   .catch(err => {
     console.log(`Error: ${err}`);
-  })
+  });
 
 
 /*
@@ -19,7 +20,7 @@ const githubData = axios.get('https://api.github.com/users/andromedis')
 
     Skip to STEP 3.
 */
-console.log(githubData);
+
 
 
 /*
@@ -27,7 +28,15 @@ console.log(githubData);
     and append the returned markup to the DOM as a child of .cards
 */
 
-
+const cardsElement = document.querySelector('.cards');
+axios.get('https://api.github.com/users/andromedis')
+  .then(res => {
+    const newCard = createCard(res.data);
+    cardsElement.appendChild(newCard);
+  })
+  .catch(err => {
+    console.log(`Error: ${err}`);
+  });
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -40,7 +49,18 @@ console.log(githubData);
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+followersArray.forEach(username => {
+  axios.get(`https://api.github.com/users/${username}`)
+  .then(res => {
+    const newCard = createCard(res.data);
+    cardsElement.appendChild(newCard);
+  })
+  .catch(err => {
+    console.log(`Error: ${err}`);
+  });
+})
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -61,6 +81,7 @@ const followersArray = [];
       </div>
     </div>
 */
+
 function createCard(user) {
   // instantiating elements
   const card = document.createElement('div');
@@ -77,14 +98,14 @@ function createCard(user) {
 
   // adding classes, attributes, text
   card.className = 'card';
-  img.src = user['avatar-url'];
+  img.src = user['avatar_url'];
   cardInfo.className = 'card-info';
   name.className = 'name';
   name.textContent = user.name;
   username.className = 'username';
-  username.textContent = user.username;
+  username.textContent = user.login;
   location.textContent = `Location: ${user.location}`;
-  profile.textContent = 'Profile:';
+  profile.textContent = 'Profile: ';
   profileAddress.href = user.url;
   profileAddress.textContent = user.url;
   followers.textContent = `Followers: ${user.followers}`;
@@ -105,6 +126,7 @@ function createCard(user) {
 
   return card;
 }
+
 
 /*
   List of LS Instructors Github username's:
