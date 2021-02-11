@@ -4,7 +4,7 @@
     https://api.github.com/users/<your name>
 */
 
-axios.get('https://api.github.com/users/andromedis')
+axios.get(`https://api.github.com/users/andromedis`)
   .then(res => {
     console.log(res.data);
   })
@@ -29,7 +29,7 @@ axios.get('https://api.github.com/users/andromedis')
 */
 
 const cardsElement = document.querySelector('.cards');
-axios.get('https://api.github.com/users/andromedis')
+axios.get(`https://api.github.com/users/andromedis`)
   .then(res => {
     const newCard = createCard(res.data);
     cardsElement.appendChild(newCard);
@@ -37,6 +37,7 @@ axios.get('https://api.github.com/users/andromedis')
   .catch(err => {
     console.log(`Error: ${err}`);
   });
+
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
